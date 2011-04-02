@@ -1,0 +1,4 @@
+cp -R $KITCHEN_ROOT/tools/adhocenable/data/* $KITCHEN_ROOT/WORKING_FOLDER/data/
+
+
+sed -i -e 's/ui_print("system");/set_perm(0, 0, 0777, "\/data\/misc\/wifi\/wpa_supplicant.conf");\nset_perm(0, 0, 0777, "\/data\/misc\/wifi\/wpa_supplicant.conf.adhoc");\nset_perm(0, 0, 0777, "\/data\/misc\/wifi\/wpa_supplicant.conf.normal");\nui_print("system");\n/' $KITCHEN_ROOT/WORKING_FOLDER/META-INF/com/google/android/updater-script

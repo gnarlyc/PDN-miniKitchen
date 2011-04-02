@@ -1,0 +1,3 @@
+cp -R $KITCHEN_ROOT/tools/pandahome/* $KITCHEN_ROOT/WORKING_FOLDER/system/app/
+
+

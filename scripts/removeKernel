@@ -1,0 +1,10 @@
+echo ""
+echo "***    Removing kernel from WORKING_FOLDER "
+echo ""
+
+if [ -f $KITCHEN_ROOT/WORKING_FOLDER/kernel ]
+   then
+      rm $KITCHEN_ROOT/WORKING_FOLDER/kernel
+fi
+
+cd $KITCHEN_ROOT/WORKING_FOLDER

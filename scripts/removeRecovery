@@ -1,0 +1,15 @@
+echo ""
+echo "***    Removing recovery.img from WORKING_FOLDER "
+echo ""
+
+if [ -f $KITCHEN_ROOT/WORKING_FOLDER/recovery.img ]
+   then
+      rm $KITCHEN_ROOT/WORKING_FOLDER/recovery.img
+fi
+
+if [ -d $KITCHEN_ROOT/WORKING_FOLDER/recovery/ ]
+   then
+      rm -rf $KITCHEN_ROOT/WORKING_FOLDER/recovery
+fi
+
+cd $KITCHEN_ROOT/WORKING_FOLDER

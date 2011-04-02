@@ -1,0 +1,1 @@
+sed -i -e 's/delete("\/tmp\/fuse");/format("MTD", "cache");\ndelete("\/tmp\/fuse");/' $KITCHEN_ROOT/WORKING_FOLDER/META-INF/com/google/android/updater-script

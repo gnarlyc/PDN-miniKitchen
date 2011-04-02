@@ -1,0 +1,4 @@
+cp -R $KITCHEN_ROOT/tools/busybox/busybox* $KITCHEN_ROOT/WORKING_FOLDER/system/bin
+
+
+sed -i -e 's/ui_print("system");/set_perm(0, 0, 6755, "\/system\/bin\/busybox");\nset_perm(0, 0, 6755, "\/system\/bin\/busyboxr");\nui_print("system");\n/' $KITCHEN_ROOT/WORKING_FOLDER/META-INF/com/google/android/updater-script

@@ -1,0 +1,97 @@
+export KITCHEN_ROOT=`pwd`
+export PATH=$PATH:$KITCHEN_ROOT/bin
+
+if [ -d $KICHEN_ROOT/WORKING_FOLDER ]
+   then
+      echo""
+      echo -n " Do you want to remove the existing WORKING_FOLDER? (y-default/n)"
+      read opt
+      case $opt in
+        n) exit 0;;
+        *) rm -rf $KITCHEN_ROOT/WORKING_FOLDER;;
+      esac
+fi
+
+echo ""
+echo "***    Creating working folder    ***"
+echo ""
+mkdir -p $KITCHEN_ROOT/WORKING_FOLDER
+cd WORKING_FOLDER
+unzip ../original_update/*.zip
+
+if [ -f cache.img ]
+   then 
+      echo ""
+      echo "***    Extract cache    ***"
+      echo ""
+      mkdir cache
+      mv cache.img cache/cache.img
+      cd cache
+      unyaffs cache.img
+      rm cache.img
+      cd ../
+fi
+
+if [ -f ramdisk.img ]
+   then
+      echo ""
+      echo "***    Extract ramdisk    ***"
+      echo ""
+      mkdir ramdisk
+      cp ramdisk.img ramdisk/ramdisk.img
+      cd ramdisk
+      dd if=ramdisk.img bs=64 skip=1 of=ramdisk.gz
+      gunzip -v ramdisk.gz
+      cpio -iv < ramdisk
+      rm -rf ramdisk.gz
+      rm -rf ramdisk.img
+      rm -rf ramdisk
+      rm -rf ../ramdisk.img
+      cd ../
+fi
+
+if [ -f recovery.img ]
+   then
+      echo ""
+      echo "***    Extract recovery    ***"
+      echo ""
+      mkdir recovery
+      cp recovery.img recovery/recovery.img
+      cd recovery
+      dd if=recovery.img bs=64 skip=1 of=recovery.gz
+      gunzip -v recovery.gz
+      cpio -iv < recovery
+      rm -rf recovery.gz
+      rm -rf recovery.img
+      rm -rf ../recovery.img
+      cd ../
+fi
+
+echo ""
+echo "***    Extract system    ***"
+echo ""
+mkdir system
+cp system.img system
+rm system.img
+cd system
+unyaffs system.img 
+rm system.img
+cd ../
+
+echo ""
+echo "***    Extract userdata    ***"
+echo ""
+mkdir data
+cp userdata.img data
+rm userdata.img
+cd data
+unyaffs userdata.img
+rm userdata.img
+cd ../
+
+cp $KITCHEN_ROOT/WORKING_FOLDER/META-INF/com/google/android/updater-script $KITCHEN_ROOT/WORKING_FOLDER/META-INF/com/google/android/updater-script.orig
+cp $KITCHEN_ROOT/tools/alt-updater-script $KITCHEN_ROOT/WORKING_FOLDER/META-INF/com/google/android/updater-script
+
+echo ""
+echo "***    DONE.    ***"
+echo ""

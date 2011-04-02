@@ -1,0 +1,4 @@
+rm -rf $KITCHEN_ROOT/WORKING_FOLDER/system/lib/egl/*
+cp -R $KITCHEN_ROOT/tools/egl_update/* $KITCHEN_ROOT/WORKING_FOLDER/system/lib/egl
+
+

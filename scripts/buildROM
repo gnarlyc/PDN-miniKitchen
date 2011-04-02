@@ -1,0 +1,38 @@
+export KTICHEN_ROOT=`pwd`
+export PATH=$PATH:$KITCHEN_ROOT/bin
+
+cd WORKING_FOLDER
+
+echo ""
+echo "***    Building userdata.img    ***"
+echo ""
+../bin/mkyaffs2image data userdata.img
+
+echo ""
+echo "***    Building system.img    ***"
+echo ""
+../bin/mkyaffs2image system system.img
+
+echo ""
+echo "***    Building ramdisk.img    ***"
+echo ""
+cd ramdisk
+find . | cpio -o -H newc | gzip > ../newramdisk.cpio.gz
+mkimage -A ARM -O Linux -T ramdisk -C gzip -a 0x00 -e 0x00 -n ramdisk -d ../newramdisk.cpio.gz ../ramdisk.img
+rm ../newramdisk.cpio.gz
+cd ../
+
+echo ""
+echo "***    Building ROM    ***"
+echo ""
+rm -rf system
+rm -rf data
+rm -rf ramdisk
+rm -rf *.md5
+zip -r NEW_ROM_PD_INX7E_ENG_6410POP *
+
+mv NEW_ROM_PD_INX7E_ENG_6410POP.zip $KITCHEN_ROOT/OUT/"`date '+%m%d%y_%H%M%S'`_PD_INX7E_ENG_6410POP.zip"
+
+echo ""
+echo " Your newly built ROM is in $KTICHEN_ROOT/OUT "
+echo ""

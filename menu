@@ -1,0 +1,66 @@
+# PDN miniKitchen by gnarlyc
+# inspired by dsixda (I learned a lot by looking at the code from his kitchen, so some of this is similar.)
+# ah heck... I'll probably use some of dsixda's code. Thanks man. You rock!
+# binaries downloaded from http://code.google.com/p/fatplus/
+#
+echo ""
+echo "***    Setting up    ***"
+echo ""
+chmod a+x bin/*
+chmod a+x scripts/*
+export KITCHEN_ROOT=`pwd`
+
+result=$? 
+if [ "$result" == "1" ] 
+   then
+      exit 0
+fi
+
+while :
+do
+
+echo ""
+echo "    PDN miniKitchen v6    "
+echo ""
+echo "       by gnarlyc "
+echo "    inspired by dsixda "
+echo ""
+echo "  1. Extract ROM "
+echo "  2. remove bootloader.img "
+echo "  3. remove recovery.img "
+echo "  4. remove kernel "
+echo "  5. remove bootloader.img, recovery.img, & kernel "
+echo ""
+#echo "     Advanced "
+#echo "     -------- "
+echo " 11. Enable Adhoc wireless (created by nchntrman)"
+echo " 12. add busybox (created by nchntrman) "
+echo " 13. add volume key hack (created by nchntrman) "
+echo " 14. add Eclair video update (created by modeuce) "
+echo " 15. add PandaHome (created by nchntrman) "
+echo ""
+echo " 98. Rebuild ROM as non-img based ROM "
+#echo " 99. Rebuild ROM as std PDN ROM "
+echo ""
+echo "  x. Exit"
+echo ""
+echo -n " Please enter your selection: "
+read menu
+case $menu in
+  1) scripts/extractROM;;
+  2) scripts/removeBoot;;
+  3) scripts/removeRecovery;;
+  4) scripts/removeKernel;;
+  5) scripts/removeBoot; scripts/removeRecovery; scripts/removeKernel;;
+
+ 11) scripts/addAdhoc;;
+ 12) scripts/addBusybox;;
+ 13) scripts/addVolkey;;
+ 14) scripts/addEglUpdate;;
+ 15) scripts/addPandahome;;
+ 98) scripts/buildNonImgROM;;
+# 99) scripts/buildROM;;
+  x) exit 1;;
+esac
+
+done

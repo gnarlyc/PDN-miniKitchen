@@ -1,0 +1,11 @@
+echo ""
+echo "***    Removing bootloader.img from WORKING_FOLDER "
+echo ""
+
+if [ -f $KITCHEN_ROOT/WORKING_FOLDER/bootloader.img ]
+   then
+      rm $KITCHEN_ROOT/WORKING_FOLDER/bootloader.img
+fi
+
+cd $KITCHEN_ROOT/WORKING_FOLDER
+

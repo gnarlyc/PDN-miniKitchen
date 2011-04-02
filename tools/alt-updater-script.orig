@@ -1,0 +1,38 @@
+package_extract_file("fuse", "/tmp/fuse");
+set_perm(0, 0, 0755, "/tmp/fuse");
+
+package_extract_file("logo", "/tmp/logo");
+run_program("/tmp/fuse", "logo", "/tmp/logo");
+delete("/tmp/logo");
+
+package_extract_file("ramdisk.img", "/tmp/ramdisk.img");
+run_program("/tmp/fuse", "ramdisk", "/tmp/ramdisk.img");
+delete("/tmp/ramdisk.img");
+
+format("MTD", "system");
+mount("MTD", "system", "/system");
+show_progress(0.500000, 40);
+package_extract_dir("system", "/system");
+set_perm_recursive(0, 0, 0755, 0644, "/system");
+set_perm_recursive(0, 2000, 0755, 0755, "/system/bin");
+set_perm(0, 3003, 02750, "/system/bin/netcfg");
+set_perm(1002, 1002, 0440, "/system/etc/dbus.conf");
+set_perm_recursive(0, 0, 0755, 0555, "/system/etc/ppp");
+set_perm_recursive(0, 2000, 0755, 0755, "/system/xbin");
+set_perm(0, 0, 06755, "/system/xbin/su");
+
+ui_print("system");
+
+unmount("/system");
+
+format("MTD", "data");
+mount("MTD", "data", "/data");
+package_extract_dir("data", "/data");
+set_perm(1000, 1000, 0771, "/data/app");
+unmount("/data");
+
+#package_extract_file("userdata.img", "/tmp/userdata.img");
+#run_program("/tmp/fuse", "userdata", "/tmp/userdata.img");
+#delete("/tmp/userdata.img");
+
+delete("/tmp/fuse");
